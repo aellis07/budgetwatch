@@ -13,6 +13,7 @@ const FILES_TO_CACHE = [
 ];
 
 const CACHE_NAME = "BudgetWatch-FileCache";
+const DATA_CACHE_NAME = "BudgetWatch-DataCache";
 
 // Intakes cache data
 self.addEventListener("install", function (evt) {
@@ -24,4 +25,22 @@ self.addEventListener("install", function (evt) {
   );
 
   self.skipWaiting();
+});
+
+// Remove old cache data
+self.addEventListener("activate", (evt) => {
+  evt.waitUntil(
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+            console.log("removing old cache data", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+
+  self.clients.claim();
 });
