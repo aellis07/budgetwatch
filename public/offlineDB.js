@@ -65,3 +65,7 @@ function checkDatabase() {
     }
   };
 }
+
+// Listens for the browser window to go back online,
+// If online run checkDatabase();
+window.addEventListener("online", checkDatabase);
