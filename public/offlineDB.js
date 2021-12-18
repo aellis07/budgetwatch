@@ -33,3 +33,13 @@ function saveRecord(record) {
   const store = transaction.objectStore("pending");
   store.add(record);
 }
+
+// Called when user goes online to send transactions stored in db to server
+// When user comes back online
+function checkDatabase() {
+  const transaction = db.transaction("pending", "readonly");
+  const store = transaction.objectStore("pending");
+
+  // Get all offline transactions from Object Store
+  const getAll = store.getAll();
+}
