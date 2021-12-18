@@ -54,7 +54,14 @@ function checkDatabase() {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
-      });
+      })
+        .then((response) => response.json())
+        .then(() => {
+          // Clear object store after successful POST
+          const transaction = db.transaction("pending", "readwrite");
+          const store = transaction.objectStore("pending");
+          store.clear();
+        });
     }
   };
 }
