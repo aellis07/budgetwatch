@@ -69,4 +69,10 @@ self.addEventListener("fetch", (evt) => {
     );
     return;
   }
+  // Send static files if non-API request made
+  evt.respondWith(
+    caches.match(evt.request).then(function (response) {
+      return response || fetch(evt.request);
+    })
+  );
 });
